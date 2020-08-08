@@ -7,14 +7,20 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
-import { LoginsuccessComponent } from './loginsuccess/loginsuccess.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { PredictComponent } from './predict/predict.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    LoginsuccessComponent
+    HomePageComponent,
+    PredictComponent,
+    LeaderboardComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,
