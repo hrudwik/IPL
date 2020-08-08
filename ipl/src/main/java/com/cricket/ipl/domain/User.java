@@ -1,6 +1,8 @@
 package com.cricket.ipl.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,7 +15,8 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String emailId;
     private String userName;
     private String password;
@@ -22,14 +25,14 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String id, String userName, String emailId, String password) {
+    public User(Integer id, String userName, String emailId, String password) {
         this.id = id;
         this.userName = userName;
         this.emailId = emailId;
         this.password = password;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -43,7 +46,7 @@ public class User implements Serializable {
         return password;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

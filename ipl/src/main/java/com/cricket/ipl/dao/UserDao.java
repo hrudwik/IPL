@@ -8,11 +8,11 @@ public interface UserDao {
 
     boolean insert(User user);
 
-    boolean updatePassword(String id, String password);
+    boolean updatePassword(Integer id, String password);
 
-    boolean delete(String id);
+    boolean delete(Integer id);
 
-    User getUserById(String id);
+    User getUserById(Integer id);
 
     User getUserByEmailId(String emailId);
 

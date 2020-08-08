@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS "user" (
-                    id varchar(100),
+                    id SERIAL PRIMARY KEY,
                     emailId varchar(100),
                     userName varchar(100),
-                    password varchar(100),
-                    primary key(id)
+                    password varchar(100)
                     )

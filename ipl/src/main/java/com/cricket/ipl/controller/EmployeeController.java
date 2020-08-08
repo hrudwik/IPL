@@ -16,6 +16,7 @@ public class EmployeeController {
     private UserDao userDao;
 
     @PostMapping("/registeruser")
+    @CrossOrigin(origins = "http://localhost:4200")
     public User registerUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         if(tempEmailId!=null && !"".equals(tempEmailId)) {
@@ -29,6 +30,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin(origins = "http://localhost:4200")
     public User loginUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         String tempPassword = user.getPassword();
@@ -48,17 +50,17 @@ public class EmployeeController {
     }
 
     @RequestMapping("/users/{id}")
-    public User getUser(@PathVariable String id){
+    public User getUser(@PathVariable Integer id){
         return userDao.getUserById(id);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
-    public void updateUser(@RequestBody User user, @PathVariable String id){
+    public void updateUser(@RequestBody User user, @PathVariable Integer id){
         userDao.updatePassword(id, user.getPassword());
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
-    public void deleteUser(@PathVariable String id){
+    public void deleteUser(@PathVariable Integer id){
         userDao.delete(id);
     }
 }

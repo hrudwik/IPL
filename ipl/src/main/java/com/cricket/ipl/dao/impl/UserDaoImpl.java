@@ -20,17 +20,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updatePassword(String id, String password) {
+    public boolean updatePassword(Integer id, String password) {
         return userMapper.updatePassword(id, password);
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(Integer id) {
         return userMapper.delete(id);
     }
 
     @Override
-    public User getUserById(String id) {
+    public User getUserById(Integer id) {
         return userMapper.getUserById(id);
     }
 
