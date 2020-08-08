@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int findPlatform(vector<int> arrival, vector<int> departure, int n)
+{
+    sort(arrival.begin(), arrival.end());
+    sort(departure.begin(), departure.end());
+
+    // plat_needed indicates number of platforms
+    // needed at a time
+    int plat_needed = 1, result = 1;
+    int i = 1, j = 0;
+
+    // Similar to merge in merge sort to process
+    // all events in sorted order
+    while (i < n && j < n) {
+
+        // If next event in sorted order is arrival,
+        // increment count of platforms needed
+        if (arrival[i] <= departure[j]) {
+            plat_needed++;
+            i++;
+        }
+
+        // Else decrement count of platforms needed
+        else if (arrival[i] > departure[j]) {
+            plat_needed--;
+            j++;
+        }
+
+        // Update result if needed
+        if (plat_needed > result)
+            result = plat_needed;
+    }
+
+    return result;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    cin>>n;
+    vector<int> arrival(n, 0);
+    vector<int> departure(n, 0);
+
+    for(int i=0; i<n; i++) {
+        cin>>arrival[i];
+        cin>>departure[i];
+        departure[i] += arrival[i];
+    }
+    cout << "Minimum Number of Platforms Required = "
+         << findPlatform(arrival, departure, n);
+    return 0;
+}
