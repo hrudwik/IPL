@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class EmployeeController {
+public class MainController {
 
     @Autowired
     @Qualifier("userDaoImpl")

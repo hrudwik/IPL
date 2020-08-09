@@ -19,8 +19,8 @@ public class User implements Serializable {
     private Integer id;
     private String emailId;
     private String userName;
+    private String phoneNumber;
     private String password;
-
 
     public User() {
     }
@@ -32,6 +32,17 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
     public Integer getId() {
         return id;
     }
@@ -65,24 +76,11 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                ", userName='" + userName + '\'' +
+                "id=" + id +
                 ", emailId='" + emailId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(emailId, user.emailId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userName, emailId);
     }
 }

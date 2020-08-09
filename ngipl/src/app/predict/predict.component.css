@@ -1,0 +1,45 @@
+.container {
+	margin-top: 8%;
+}
+
+.inner {
+	overflow: hidden;
+}
+
+.inner img {
+	transition: all 1.5s ease;
+}
+
+.inner:hover img {
+	transform: scale(1.2);
+}
+
+.page-container {
+	height: 100%;
+	/* width: 300px; */
+	width: 100%;
+	display: flex;
+}
+
+.matches-box {
+	padding-top: 100px;
+	padding-left: 5%;
+	padding-top: 12%;
+}
+
+.match_outer_card{
+
+	background:#fff;
+	width:30%;
+	float:left;
+	margin-right:24px;
+	margin-bottom:18px;
+	border-radius:4px
+}
+
+.match_outer_card a{text-decoration:none}
+
+.text {
+	color:lightpink;
+	text-align: center;
+}
