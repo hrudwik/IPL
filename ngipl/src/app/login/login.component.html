@@ -9,7 +9,7 @@
           <div class="form-group">
             <label for="email">Email Id:</label>
             <input type="email" class="form-control" placeholder="Enter email" name="email" [(ngModel)]="user.emailId" 
-            required pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" 
+            required pattern="^[a-zA-Z0-9_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" 
             #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
             <div *ngIf="email.errors && (email.invalid && email.touched)">
               <small class="text-danger" *ngIf="email.errors.required">Email Id is required field</small>
@@ -31,8 +31,7 @@
           <button [disabled]="loginForm.form.invalid" type="submit" class="btn btn-info">Login</button>
           <small class="float-right btextual" style="cursor: pointer;" [routerLink]="['/registration']">New user? Register here</small>
         </form>
-        <!-- <small class="float-right" (click)="gotoregistration()">New user? Register here</small> -->
+
         <br>
       </div>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>

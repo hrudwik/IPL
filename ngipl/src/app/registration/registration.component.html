@@ -2,13 +2,13 @@
     <br>
     <div class="container" style="max-width: 600px; background-color: lightblue;">
         <h2 class="textual">User Registration</h2>
-        <form #RegisterForm="ngForm" (ngSubmit)="registerUser()">
+        <form #RegisterForm="ngForm" (ngSubmit)="registerUser(password.value, cpassword.value)">
             <small class="text-danger">{{msg}}</small>
 
           <div class="form-group">
             <label for="email">Email Id:</label>
             <input type="email" class="form-control" placeholder="Enter email" name="email" [(ngModel)]="user.emailId" 
-            required pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" 
+            required pattern="^[a-zA-Z0-9_.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" 
             #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
             <div *ngIf="email.errors && (email.invalid && email.touched)">
               <small class="text-danger" *ngIf="email.errors.required">Email Id is required field</small>
@@ -37,7 +37,8 @@
             <small class="text-danger" [class.d-none]="(cpassword.value == password.value) || cpassword.untouched">Password and Confirm Password must be same</small>
           </div>
 
-          <button [disabled]="RegisterForm.form.invalid" type="submit" class="btn btn-info">Register</button>
+          <button [disabled]="RegisterForm.form.invalid" type="submit" 
+          class="btn btn-info">Register</button>
           <small class="float-right btextual" style="cursor: pointer;" [routerLink]="['/login']">Existing user? Login here</small>
         </form>
 

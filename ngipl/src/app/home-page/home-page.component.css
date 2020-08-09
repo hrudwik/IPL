@@ -10,7 +10,8 @@
 
 .sidebar {
 	height: 100%;
-	width: 300px;
+	/* width: 300px; */
+	width: 20%;
 	background: rgba(0, 0, 0, 0.2);
 }
 

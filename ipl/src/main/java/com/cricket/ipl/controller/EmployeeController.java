@@ -1,6 +1,7 @@
 package com.cricket.ipl.controller;
 
 import com.cricket.ipl.dao.UserDao;
+import com.cricket.ipl.util.NetworkConstants;
 import com.cricket.ipl.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +17,7 @@ public class EmployeeController {
     private UserDao userDao;
 
     @PostMapping("/registeruser")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
     public User registerUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         if(tempEmailId!=null && !"".equals(tempEmailId)) {
@@ -30,7 +31,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
     public User loginUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         String tempPassword = user.getPassword();

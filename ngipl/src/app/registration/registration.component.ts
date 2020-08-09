@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User } from '../user';
 import { RegistrationService } from '../registration.service';
@@ -18,7 +18,12 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registerUser() {
+  registerUser(password: string, cnfPassword: string) {
+    if(password != cnfPassword) {
+      this.msg = "Passwords doesn't match, please try again";
+      return;
+    }
+
     this._service.registerUserFromRemote(this.user).subscribe(
       data => {
         console.log("response received");
@@ -26,7 +31,7 @@ export class RegistrationComponent implements OnInit {
       },
       error => {
         console.log("exception occured");
-        this.msg="Registration Failed with error: ("+ error.msg +")";
+        this.msg="Registration Failed with error: ("+ error.error.msg +")";
       }
     )
   }
