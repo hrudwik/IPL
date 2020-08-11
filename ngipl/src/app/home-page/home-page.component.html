@@ -2,9 +2,17 @@
     <div class="sidebar">
         
         <div class="list-items">
+            <a routerLink="/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}" class="list-item">
+                <i class="material-icons">sports_cricket</i>
+                Home
+            </a>
             <a routerLink="/home/predict" routerLinkActive="selected" class="list-item">
                 <i class="material-icons">sports_cricket</i>
                 Predict
+            </a>
+            <a routerLink="/home/privateLeague" routerLinkActive="selected" class="list-item">
+                <i class="material-icons">sports_cricket</i>
+                Private League
             </a>
             <a routerLink="/home/leaderboard" routerLinkActive="selected" class="list-item">
                 <i class="material-icons">sports_cricket</i>

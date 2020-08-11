@@ -2,6 +2,7 @@ package com.cricket.ipl;
 
 import com.cricket.ipl.dao.UserDao;
 import com.cricket.ipl.domain.User;
+import com.cricket.ipl.processor.FeedPlayerProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -15,11 +16,12 @@ public class IplApplication {
 	public static void main(String[] args) {
 
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(IplApplication.class, args);
-		UserDao userDao = applicationContext.getBean("userDaoImpl", UserDao.class);
 
-		/*User user = new User("1", "hru", "h@sd.com", "123");
-		userDao.insert(user);*/
-		LOGGER.info("All users in db: {}", userDao.getAllUsers());
+		/*UserDao userDao = applicationContext.getBean("userDaoImpl", UserDao.class);
+		LOGGER.info("All users in db: {}", userDao.getAllUsers());*/
+
+		FeedPlayerProcessor feedPlayerProcessor = applicationContext.getBean("feedPlayerProcessor", FeedPlayerProcessor.class);
+		feedPlayerProcessor.run();
 	}
 
 }
