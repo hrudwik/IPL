@@ -18,6 +18,7 @@ export class PredictComponent implements OnInit {
 
   openFormModal() {
     const modalRef = this.modalService.open(PredictFormModalComponent);
+    modalRef.componentInstance.id = 10; // should be the id
     
     modalRef.result.then((result) => {
       console.log(result);
@@ -25,24 +26,5 @@ export class PredictComponent implements OnInit {
       console.log(error);
     });
   }
-
-
-  // open(content) {
-  //   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-  //     this.closeResult = `Closed with: ${result}`;
-  //   }, (reason) => {
-  //     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  //   });
-  // }
-
-  // private getDismissReason(reason: any): string {
-  //   if (reason === ModalDismissReasons.ESC) {
-  //     return 'by pressing ESC';
-  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-  //     return 'by clicking on a backdrop';
-  //   } else {
-  //     return `with: ${reason}`;
-  //   }
-  // }
 
 }
