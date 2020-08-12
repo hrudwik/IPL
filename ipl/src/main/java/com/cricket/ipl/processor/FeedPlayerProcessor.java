@@ -1,7 +1,10 @@
 package com.cricket.ipl.processor;
 
+import com.cricket.ipl.dao.MatchScheduleDao;
 import com.cricket.ipl.dao.PlayerDao;
+import com.cricket.ipl.domain.MatchSchedule;
 import com.cricket.ipl.domain.Player;
+import com.cricket.ipl.reader.FeedMatchScheduleReader;
 import com.cricket.ipl.reader.FeedPlayerReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +22,15 @@ public class FeedPlayerProcessor {
     private FeedPlayerReader feedPlayerReader;
 
     @Autowired
+    private FeedMatchScheduleReader feedMatchScheduleReader;
+
+    @Autowired
     @Qualifier("playerDaoImpl")
     private PlayerDao playerDao;
+
+    @Autowired
+    @Qualifier("matchScheduleDaoImpl")
+    private MatchScheduleDao matchScheduleDao;
 
     public void run() {
 
@@ -31,7 +41,16 @@ public class FeedPlayerProcessor {
                 List<Player> players = feedPlayerReader.read();
 
                 for (Player player : players) {
-                    writeStockPrice(player);
+                    writePlayer(player);
+                }
+            }
+
+            MatchSchedule matchScheduleInDb = matchScheduleDao.selectMatchById(1);
+            if(matchScheduleInDb == null) {
+                List<MatchSchedule> matchScheduleList = feedMatchScheduleReader.read();
+
+                for (MatchSchedule matchSchedule : matchScheduleList) {
+                    writeMatchSchedule(matchSchedule);
                 }
             }
         } catch (Exception e) {
@@ -39,18 +58,33 @@ public class FeedPlayerProcessor {
         }
     }
 
-    public void writeStockPrice(Player player) {
+    public void writeMatchSchedule(MatchSchedule matchSchedule) {
+
+        try {
+            matchScheduleDao.insertMatchSchedule(matchSchedule);
+        } catch (Throwable e){
+            LOGGER.info("MatchSchedule {} didn't make it to DB due to exception {}", matchSchedule, e.getMessage());
+            deleteMatchScheduleFromDB(matchSchedule);
+            LOGGER.info("Player deleted from DB");
+        }
+    }
+
+    public void deleteMatchScheduleFromDB(MatchSchedule matchSchedule) {
+        matchScheduleDao.deleteMatchSchedule(matchSchedule.getMatchId());
+    }
+
+    public void writePlayer(Player player) {
 
         try {
             playerDao.insertPlayer(player);
         } catch (Throwable e){
             LOGGER.info("Player {} didn't make it to DB due to exception {}", player, e.getMessage());
-            deleteStockPriceToDB(player);
+            deletePlayerToDB(player);
             LOGGER.info("Player deleted from DB");
         }
     }
 
-    public void deleteStockPriceToDB(Player player) {
+    public void deletePlayerToDB(Player player) {
         playerDao.deletePlayer(player.getPlayerId());
     }
 }

@@ -1,7 +1,7 @@
 package com.cricket.ipl.reader.impl;
 
-import com.cricket.ipl.domain.Player;
-import com.cricket.ipl.reader.FeedPlayerReader;
+import com.cricket.ipl.domain.MatchSchedule;
+import com.cricket.ipl.reader.FeedMatchScheduleReader;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,21 +13,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-@Service("feedPlayerReader")
-public class FeedPlayerReaderImpl implements FeedPlayerReader {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FeedPlayerReader.class);
-    @Value("${players.filename}")
+@Service("feedMatchScheduleReader")
+public class FeedMatchScheduleReaderImpl implements FeedMatchScheduleReader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeedMatchScheduleReader.class);
+    @Value("${matchschedule.filename}")
     private String fileName;
 
     @Override
-    public List<Player> read() {
+    public List<MatchSchedule> read() {
         try (Reader reader = Files.newBufferedReader(Paths.get(
                 ClassLoader.getSystemResource(fileName).toURI()))) {
-            List<Player> stockPrices = new CsvToBeanBuilder<Player>(reader)
-                    .withType(Player.class)
+            List<MatchSchedule> matchScheduleList = new CsvToBeanBuilder<MatchSchedule>(reader)
+                    .withType(MatchSchedule.class)
                     .build().parse();
-            LOGGER.info("FeedPlayerReader read {} players from file : {}", stockPrices.size(), fileName);
-            return stockPrices;
+            LOGGER.info("FeedMatchScheduleReader read {} matches from file : {}", matchScheduleList.size(), fileName);
+            return matchScheduleList;
         } catch (Exception e) {
             throw new RuntimeException("Unable to connect to players.csv. Due to Exception :" + e.getMessage());
         }

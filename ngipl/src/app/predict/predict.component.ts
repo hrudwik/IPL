@@ -16,9 +16,31 @@ export class PredictComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openFormModal() {
+  openFormModalFirst() {
     const modalRef = this.modalService.open(PredictFormModalComponent);
-    modalRef.componentInstance.id = 10; // should be the id
+    modalRef.componentInstance.id = "1"; // should be the id
+    
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  openFormModalSecond() {
+    const modalRef = this.modalService.open(PredictFormModalComponent);
+    modalRef.componentInstance.id = "2"; // should be the id
+    
+    modalRef.result.then((result) => {
+      console.log(result);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  openFormModalThird() {
+    const modalRef = this.modalService.open(PredictFormModalComponent);
+    modalRef.componentInstance.id = "3"; // should be the id
     
     modalRef.result.then((result) => {
       console.log(result);

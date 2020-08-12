@@ -1,5 +1,6 @@
 <div class="container">
     <div class="row justify-content-center">
+
         <div class="col-md-4">
             <div class="card shadow" style="width: 20rem;">
                 <div class="inner">
@@ -9,13 +10,11 @@
                   <h5 class="card-title">Match-1</h5>
                   <p class="card-text">CSK VS MI.</p>
                   <!-- <a style="width:auto;" class="btn btn-primary">Predict</a> -->
-                  <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Predict</button> -->
-                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModal()">Predict</button>
-                  <!-- <hr>
-                  <pre>{{ closeResult }}</pre> -->
+                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">Predict</button>
                 </div>
               </div>
         </div>
+
         <div class="col-md-4">
             <div class="card shadow" style="width: 20rem;">
                 <div class="inner">
@@ -24,7 +23,7 @@
                 <div class="card-body text-center">
                   <h5 class="card-title">Match-2</h5>
                   <p class="card-text">DD VS RR</p>
-                  <a href="#" class="btn btn-success">Predict</a>
+                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModalSecond()">Predict</button>
                 </div>
               </div>
         </div>
@@ -36,7 +35,7 @@
                 <div class="card-body text-center">
                   <h5 class="card-title">Match-3</h5>
                   <p class="card-text">SRH VS KKR.</p>
-                  <a href="#" class="btn btn-success">Predict</a>
+                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModalThird()">Predict</button>
                 </div>
               </div>
         </div>

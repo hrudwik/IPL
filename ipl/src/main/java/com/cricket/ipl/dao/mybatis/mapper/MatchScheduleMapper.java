@@ -14,7 +14,13 @@ import java.util.List;
 @Mapper
 public interface MatchScheduleMapper extends MatchScheduleDao {
 
+    @Insert("INSERT INTO matchschedule(matchId, teamName1, teamName2, scheduleDate) VALUES ( #{matchId}, #{teamName1}, #{teamName2}, #{scheduleDate} )")
+    void insertMatchSchedule(MatchSchedule matchSchedule);
+
     @Select("SELECT matchId, teamName1, teamName2, scheduleDate, bestBatsmen, bestBowler, manOfTheMatch, winner" +
             " FROM matchschedule WHERE matchId = #{matchId}")
     public MatchSchedule selectMatchById(Integer matchId);
+
+    @Delete("DELETE matchschedule FROM  WHERE matchId = #{matchId}")
+    void deleteMatchSchedule(Integer matchId);
 }

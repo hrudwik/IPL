@@ -18,7 +18,7 @@ export class RegistrationService {
     return this._http.post<any>("http://192.168.0.109:8080/registeruser", user);
   }
 
-  public matchDetailsFromRemote(matchId: String):Observable<any> {
-    return this._http.post<any>("http://192.168.0.109:8080/matchDetails", matchId);
+  public nextThreeMatchDetailsFromRemote(matchId: String):Observable<any> {
+    return this._http.post<any>("http://192.168.0.109:8080/nextThreeMatchDetails", matchId);
   }
 }

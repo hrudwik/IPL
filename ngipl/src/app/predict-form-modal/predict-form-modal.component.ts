@@ -10,19 +10,23 @@ import { RegistrationService } from '../registration.service';
 })
 export class PredictFormModalComponent implements OnInit {
 
-  @Input()id: number;
+  teams: String[] = []
+  players: String[] = []
+
+  @Input() public id: String;
   myForm: FormGroup;
 
   constructor(private _service: RegistrationService, public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder) {
-      this.matchDetails();
+      this.createForm();
   }
 
   private createForm() {
     this.myForm = this.formBuilder.group({
-      username: '',
-      password: '',
-      mom: ''
+      winner:  [null, [ Validators.required ] ],
+      mom:  [null, [ Validators.required ] ],
+      bestbatsmen:  [null, [ Validators.required ] ],
+      bestbowler:  [null, [ Validators.required ] ]
     });
   }
 
@@ -31,11 +35,15 @@ export class PredictFormModalComponent implements OnInit {
   }
 
   matchDetails() {
-    this.createForm();
-    this._service.matchDetailsFromRemote("1").subscribe(
+    this._service.nextThreeMatchDetailsFromRemote(this.id).subscribe(
       data => {
         console.log("dhc response received");
         console.log(data);
+        this.players = data.players;
+        this.teams.push(data.teamName1);
+        this.teams.push(data.teamName2);
+        console.log("teams");
+        console.log(this.teams);
       },
       error => {
         console.log("dhc exception occured");
@@ -45,6 +53,7 @@ export class PredictFormModalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.matchDetails();
   }
 
   closeModal() {

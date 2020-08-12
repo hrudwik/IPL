@@ -64,12 +64,12 @@ public class MainController {
         return userObj;
     }
 
-    @PostMapping("/matchDetails")
+    @PostMapping("/nextThreeMatchDetails")
     @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
-    public MatchDetails matchDetails(@RequestBody String matchId) throws Exception {
+    public MatchDetails nextThreeMatchDetails(@RequestBody String matchId) throws Exception {
         MatchDetails matchDetails = new MatchDetails();
-        MatchSchedule matchSchedule = matchScheduleDao.selectMatchById(1);
-        List<Player> players = playerDao.selectAllPlayersByTeamNames("CSK", "MI");
+        MatchSchedule matchSchedule = matchScheduleDao.selectMatchById(Integer.parseInt(matchId));
+        List<Player> players = playerDao.selectAllPlayersByTeamNames(matchSchedule.getTeamName1(), matchSchedule.getTeamName2());
         List<String> playerNames = players.stream().map(Player::getPlayerName).collect(Collectors.toList());
 
         matchDetails.setMatchId(matchSchedule.getMatchId());
