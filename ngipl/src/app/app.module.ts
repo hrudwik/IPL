@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -14,6 +15,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { RulesComponent } from './rules/rules.component';
 import { PrivateLeagueComponent } from './private-league/private-league.component';
 import { PredictFormModalComponent } from './predict-form-modal/predict-form-modal.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { PredictFormModalComponent } from './predict-form-modal/predict-form-mod
     LeaderboardComponent,
     RulesComponent,
     PrivateLeagueComponent,
-    PredictFormModalComponent
+    PredictFormModalComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ import { PredictFormModalComponent } from './predict-form-modal/predict-form-mod
     HttpClientModule,
     NgbModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
   entryComponents: [
     PredictFormModalComponent

@@ -9,21 +9,21 @@
     <div class="container">
 
       <div class="form-group">
-        <label for="winner">Winner: </label>
+        <label for="winner">Team: </label>
         <div class="input-group">
           <select data-placeholder="Select Match Winner" class="form-control chosen-select" style="width:350px;" 
                     tabindex="2" formControlName="winner">
-            <option [ngValue]="null" disabled>Choose your match winner</option>
+            <option disabled>Choose your Team</option>
             <option *ngFor="let team of teams" [ngValue]="team">{{ team }}</option>
           </select>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="mom">Man Of The Match: </label>
+        <label for="manOfTheMatch">Man Of The Match: </label>
         <div class="input-group">
-          <select data-placeholder="Select a MOM" class="form-control chosen-select" style="width:350px;" 
-                    tabindex="2" formControlName="mom">
+          <select data-placeholder="Select a Man Of The Match" class="form-control chosen-select" style="width:350px;" 
+                    tabindex="2" formControlName="manOfTheMatch">
             <option [ngValue]="null" disabled>Choose your man of the match</option>
             <option *ngFor="let player of players" [ngValue]="player">{{ player }}</option>
           </select>
@@ -31,10 +31,10 @@
       </div>
 
       <div class="form-group">
-        <label for="bestbatsmen">Best Batsmen: </label>
+        <label for="bestBatsmen">Best Batsmen: </label>
         <div class="input-group">
           <select data-placeholder="Select a Best Batsmen" class="form-control chosen-select" style="width:350px;" 
-                    tabindex="2" formControlName="bestbatsmen">
+                    tabindex="2" formControlName="bestBatsmen">
             <option [ngValue]="null" disabled>Choose your best batsmen</option>
             <option *ngFor="let player of players" [ngValue]="player">{{ player }}</option>
           </select>
@@ -42,10 +42,10 @@
       </div>
 
       <div class="form-group">
-        <label for="bestbowler">Best Bowler: </label>
+        <label for="bestBowler">Best Bowler: </label>
         <div class="input-group">
           <select data-placeholder="Select a Best Bowler" class="form-control chosen-select" style="width:350px;" 
-                    tabindex="2" formControlName="bestbowler">
+                    tabindex="2" formControlName="bestBowler">
             <option [ngValue]="null" disabled>Choose your best bowler</option>
             <option *ngFor="let player of players" [ngValue]="player">{{ player }}</option>
           </select>

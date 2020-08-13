@@ -21,6 +21,10 @@ public interface MatchScheduleMapper extends MatchScheduleDao {
             " FROM matchschedule WHERE matchId = #{matchId}")
     public MatchSchedule selectMatchById(Integer matchId);
 
+    @Select("SELECT matchId, teamName1, teamName2, scheduleDate, bestBatsmen, bestBowler, manOfTheMatch, winner" +
+            " FROM matchschedule where scheduleDate > now() limit 3")
+    public List<MatchSchedule> selectNextThreeMatchs();
+
     @Delete("DELETE matchschedule FROM  WHERE matchId = #{matchId}")
     void deleteMatchSchedule(Integer matchId);
 }

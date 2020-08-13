@@ -4,11 +4,11 @@
         <div class="col-md-4">
             <div class="card shadow" style="width: 20rem;">
                 <div class="inner">
-                    <img src="../assets/img/CSK_MI.jpg" class="card-img-top" alt="...">
+                    <img src={{match1.imagePath}} class="card-img-top" alt="...">
                 </div>
                 <div class="card-body text-center">
-                  <h5 class="card-title">Match-1</h5>
-                  <p class="card-text">CSK VS MI.</p>
+                  <h5 class="card-title">{{match1.matchTitle}}</h5>
+                  <p class="card-text">{{match1.time}}</p>
                   <!-- <a style="width:auto;" class="btn btn-primary">Predict</a> -->
                   <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">Predict</button>
                 </div>
@@ -18,11 +18,11 @@
         <div class="col-md-4">
             <div class="card shadow" style="width: 20rem;">
                 <div class="inner">
-                    <img src="../assets/img/DD_RR.jpg" class="card-img-top" alt="...">
+                    <img src={{match2.imagePath}} class="card-img-top" alt="...">
                 </div>
                 <div class="card-body text-center">
-                  <h5 class="card-title">Match-2</h5>
-                  <p class="card-text">DD VS RR</p>
+                  <h5 class="card-title">{{match2.matchTitle}}</h5>
+                  <p class="card-text">{{match2.time}}</p>
                   <button class="btn btn-lg btn-outline-primary" (click)="openFormModalSecond()">Predict</button>
                 </div>
               </div>
@@ -30,11 +30,11 @@
         <div class="col-md-4">
             <div class="card shadow" style="width: 20rem;">
                 <div class="inner">
-                    <img src="../assets/img/SRH_KKR.jpg" class="card-img-top" alt="...">
+                    <img src={{match3.imagePath}} class="card-img-top" alt="...">
                 </div>
                 <div class="card-body text-center">
-                  <h5 class="card-title">Match-3</h5>
-                  <p class="card-text">SRH VS KKR.</p>
+                  <h5 class="card-title">{{match3.matchTitle}}</h5>
+                  <p class="card-text">{{match3.time}}</p>
                   <button class="btn btn-lg btn-outline-primary" (click)="openFormModalThird()">Predict</button>
                 </div>
               </div>

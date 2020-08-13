@@ -8,6 +8,8 @@ import com.cricket.ipl.domain.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("matchScheduleDaoImpl")
 public class MatchScheduleDaoImpl implements MatchScheduleDao {
 
@@ -17,6 +19,11 @@ public class MatchScheduleDaoImpl implements MatchScheduleDao {
     @Override
     public void insertMatchSchedule(MatchSchedule matchSchedule) {
         matchScheduleMapper.insertMatchSchedule(matchSchedule);
+    }
+
+    @Override
+    public List<MatchSchedule> selectNextThreeMatchs() {
+        return matchScheduleMapper.selectNextThreeMatchs();
     }
 
     @Override

@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS userscorecard (
                     );
 
 CREATE TABLE IF NOT EXISTS userprediction (
-                    userId INT,
                     emailId varchar(50),
                     matchId INT,
                     bestBatsmen varchar(50),

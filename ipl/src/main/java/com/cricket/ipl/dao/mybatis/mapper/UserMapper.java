@@ -16,7 +16,7 @@ public interface UserMapper extends UserDao {
             ", #{password} )")
     boolean insert(User user);
 
-    @Insert("UPDATE \"user\" set password=#{password} WHERE id = #{id})")
+    @Insert("UPDATE \"user\" set password=#{password} WHERE id = #{id}")
     boolean updatePassword(Integer id, String password);
 
     @Delete("DELETE FROM \"user\" WHERE id = #{id}")

@@ -7,11 +7,13 @@ import { RegistrationComponent } from './registration/registration.component';
 import { PredictComponent } from './predict/predict.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { RulesComponent } from './rules/rules.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
-  {path:'', component:LoginComponent},
-  {path:'registration', component:RegistrationComponent},
+  {path:'', redirectTo: 'home', pathMatch:'full'},
   {path:'login', component:LoginComponent},
+  {path:'registration', component:RegistrationComponent},
+  {path:'logout', component:LogoutComponent},
   {path:'home', component:HomePageComponent, children: [
     {path:'predict', component:PredictComponent},
     {path:'privateLeague', component:PrivateLeagueComponent},
