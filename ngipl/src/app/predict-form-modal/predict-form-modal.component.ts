@@ -15,19 +15,23 @@ export class PredictFormModalComponent implements OnInit {
   sessionEmailId: string = ""
   teams: String[] = []
   players: String[] = []
-  predictResult: PredictResult = new PredictResult();
 
   @Input() public matchDetails: MatchDetails;
   myForm: FormGroup;
 
   constructor(private _service: RegistrationService, public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder) {
-      // this.createForm();
+      this.createForm();
   }
 
   private createForm() {
     this.sessionEmailId = sessionStorage.getItem("emailId");
-    this.getUserPredictionFromServer();
+    this.myForm = this.formBuilder.group({
+      winner:  [null, [ Validators.required ] ],
+      manOfTheMatch:  [null, [ Validators.required ] ],
+      bestBatsmen:  [null, [ Validators.required ] ],
+      bestBowler:  [null, [ Validators.required ] ]
+    });
   }
 
   public submitForm() {
@@ -51,21 +55,15 @@ export class PredictFormModalComponent implements OnInit {
           userPrediction.bestBowler = data.bestBowler;
         }
 
-        this.myForm = this.formBuilder.group({
-          winner:  [userPrediction.winner, [ Validators.required ] ],
-          manOfTheMatch:  [userPrediction.manOfTheMatch, [ Validators.required ] ],
-          bestBatsmen:  [userPrediction.bestBatsmen, [ Validators.required ] ],
-          bestBowler:  [userPrediction.bestBowler, [ Validators.required ] ]
+        this.myForm.setValue({
+          winner: userPrediction.winner, 
+          manOfTheMatch: userPrediction.manOfTheMatch,
+          bestBatsmen: userPrediction.bestBatsmen,
+          bestBowler: userPrediction.bestBowler,
         });
       },
       error => {
         console.log("exception occured while fetching getUserPredictionFromRemote");
-        this.myForm = this.formBuilder.group({
-          winner:  [null, [ Validators.required ] ],
-          manOfTheMatch:  [null, [ Validators.required ] ],
-          bestBatsmen:  [null, [ Validators.required ] ],
-          bestBowler:  [null, [ Validators.required ] ]
-        });
       }
     )
   }
@@ -79,19 +77,12 @@ export class PredictFormModalComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.createForm();
     this.matchMatchDetails();
+    this.getUserPredictionFromServer();
   }
 
   closeModal() {
     this.activeModal.close('Modal Closed');
   }
 
-}
-
-export class PredictResult{
-  winner: string;
-  manOfTheMatch: string;
-  bestBatsmen: string;
-  bestBowler: Date;
 }

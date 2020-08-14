@@ -1,30 +1,43 @@
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+<div class="container">
+  <div class="row justify-content-center">
+
+      <div class="col-md-4">
+          <div class="card shadow" style="width: 20rem;">
+              <div class="inner">
+                  <img src={{match1.imagePath}} class="card-img-top" alt="...">
+              </div>
+              <div class="card-body text-center">
+                <h5 class="card-title">{{match1.matchTitle}}</h5>
+                <p class="card-text">{{match1.time}}</p>
+                <!-- <a style="width:auto;" class="btn btn-primary">Predict</a> -->
+                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">Predict</button>
+              </div>
             </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
-  </ng-template>
-  
-  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-  
-  <hr>
-  
-  <pre>{{ closeResult }}</pre>
+      </div>
+
+      <div class="col-md-4">
+          <div class="card shadow" style="width: 20rem;">
+              <div class="inner">
+                  <img src={{match2.imagePath}} class="card-img-top" alt="...">
+              </div>
+              <div class="card-body text-center">
+                <h5 class="card-title">{{match2.matchTitle}}</h5>
+                <p class="card-text">{{match2.time}}</p>
+                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalSecond()">Predict</button>
+              </div>
+            </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card shadow" style="width: 20rem;">
+              <div class="inner">
+                  <img src={{match3.imagePath}} class="card-img-top" alt="...">
+              </div>
+              <div class="card-body text-center">
+                <h5 class="card-title">{{match3.matchTitle}}</h5>
+                <p class="card-text">{{match3.time}}</p>
+                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalThird()">Predict</button>
+              </div>
+            </div>
+      </div>
+  </div>
+</div>

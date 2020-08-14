@@ -13,7 +13,7 @@
         <div class="input-group">
           <select data-placeholder="Select Match Winner" class="form-control chosen-select" style="width:350px;" 
                     tabindex="2" formControlName="winner">
-            <option disabled>Choose your Team</option>
+            <option [ngValue]="null" disabled>Choose your Team</option>
             <option *ngFor="let team of teams" [ngValue]="team">{{ team }}</option>
           </select>
         </div>
