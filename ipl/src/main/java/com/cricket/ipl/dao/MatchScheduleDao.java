@@ -11,6 +11,8 @@ public interface MatchScheduleDao {
 
     List<MatchSchedule> selectNextThreeMatchs();
 
+    List<MatchSchedule> getMatchSchedule();
+
     MatchSchedule selectMatchById(Integer matchId);
 
     void deleteMatchSchedule(Integer matchId);

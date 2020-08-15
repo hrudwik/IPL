@@ -1,4 +1,5 @@
 <div class="container">
+  <ngb-alert *ngIf="successMessage" type="danger" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
     <div class="row justify-content-center">
 
         <div class="col-md-4">
@@ -10,7 +11,9 @@
                   <h5 class="card-title">{{match1.matchTitle}}</h5>
                   <p class="card-text">{{match1.time}}</p>
                   <!-- <a style="width:auto;" class="btn btn-primary">Predict</a> -->
-                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">Predict</button>
+                  
+                  <button class="btn btn-outline-primary mr-3" (click)="open('freeLeague', '0')">Join For Free</button>
+                  <button class="btn btn-outline-primary" (click)="open('paidLeague', '0')">Join For Rs.100</button>
                 </div>
               </div>
         </div>
@@ -23,7 +26,8 @@
                 <div class="card-body text-center">
                   <h5 class="card-title">{{match2.matchTitle}}</h5>
                   <p class="card-text">{{match2.time}}</p>
-                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModalSecond()">Predict</button>
+                  <button class="btn btn-outline-primary mr-3" (click)="open('freeLeague', '1')">Join For Free</button>
+                  <button class="btn btn-outline-primary" (click)="open('paidLeague', '1')">Join For Rs.100</button>
                 </div>
               </div>
         </div>
@@ -35,7 +39,10 @@
                 <div class="card-body text-center">
                   <h5 class="card-title">{{match3.matchTitle}}</h5>
                   <p class="card-text">{{match3.time}}</p>
-                  <button class="btn btn-lg btn-outline-primary" (click)="openFormModalThird()">Predict</button>
+                  <button class="btn btn-outline-primary mr-3" (click)="open('freeLeague', '2')">Join For Free</button>
+                  <button class="btn btn-outline-primary" (click)="open('paidLeague', '2')">Join For Rs.100</button>
+                  <!-- <button class="btn btn-outline-primary mr-3" (click)="openFormModalThird()">Join For Free</button>
+                  <button class="btn btn-outline-primary" (click)="openFormModalThird()">Join For Rs.100</button> -->
                 </div>
               </div>
         </div>

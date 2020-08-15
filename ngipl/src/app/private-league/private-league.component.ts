@@ -46,7 +46,7 @@ export class PrivateLeagueComponent implements OnInit {
     modalRef.result.then((result) => {
       console.log(result);
       let userPrediction: UserPrediction = new UserPrediction(this.sessionEmailId, this.matchDetails[0].matchId,
-        result.bestBatsmen, result.bestBowler, result.manOfTheMatch, result.winner);
+        result.bestBatsmen, result.bestBowler, result.manOfTheMatch, result.winner, result.points);
       console.log(userPrediction);
       this.updateUserPrediction(userPrediction);
     }).catch((error) => {
@@ -61,7 +61,7 @@ export class PrivateLeagueComponent implements OnInit {
     modalRef.result.then((result) => {
       console.log(result);
       let userPrediction: UserPrediction = new UserPrediction(this.sessionEmailId, this.matchDetails[1].matchId,
-        result.bestBatsmen, result.bestBowler, result.manOfTheMatch, result.winner);
+        result.bestBatsmen, result.bestBowler, result.manOfTheMatch, result.winner, result.points);
       console.log(userPrediction);
       this.updateUserPrediction(userPrediction);
     }).catch((error) => {
@@ -76,7 +76,7 @@ export class PrivateLeagueComponent implements OnInit {
     modalRef.result.then((result) => {
       console.log(result);
       let userPrediction: UserPrediction = new UserPrediction(this.sessionEmailId, this.matchDetails[2].matchId,
-        result.bestBatsmen, result.bestBowler, result.manOfTheMatch, result.winner);
+        result.bestBatsmen, result.bestBowler, result.manOfTheMatch, result.winner, result.points);
       console.log(userPrediction);
       this.updateUserPrediction(userPrediction);
     }).catch((error) => {
@@ -112,6 +112,14 @@ export class PrivateLeagueComponent implements OnInit {
         this.match2.matchTitle = ""+ this.matchDetails[1].teamName1 + " Vs " +this.matchDetails[1].teamName2;
         this.match3.matchTitle = ""+ this.matchDetails[2].teamName1 + " Vs " +this.matchDetails[2].teamName2;
 
+        this.match1.teamName1 = this.matchDetails[0].teamName1;
+        this.match2.teamName1 = this.matchDetails[1].teamName1;
+        this.match3.teamName1 = this.matchDetails[2].teamName1;
+
+        this.match1.teamName2 = this.matchDetails[0].teamName2;
+        this.match2.teamName2 = this.matchDetails[1].teamName2;
+        this.match3.teamName2 = this.matchDetails[2].teamName2;
+
         this.match1.time =this._datePipe.transform(this.matchDetails[0].scheduleDate, 'dd-MMMM (hh:mm a)');
         this.match2.time =this._datePipe.transform(this.matchDetails[1].scheduleDate, 'dd-MMMM (hh:mm a)');
         this.match3.time =this._datePipe.transform(this.matchDetails[2].scheduleDate, 'dd-MMMM (hh:mm a)');
@@ -134,6 +142,8 @@ export class MatchDetails{
 }
 
 export class Match{
+  teamName1: string;
+  teamName2: string;
   imagePath: string;
   matchTitle: string;
   time: string;

@@ -27,6 +27,11 @@ public class MatchScheduleDaoImpl implements MatchScheduleDao {
     }
 
     @Override
+    public List<MatchSchedule> getMatchSchedule() {
+        return matchScheduleMapper.getMatchSchedule();
+    }
+
+    @Override
     public MatchSchedule selectMatchById(Integer matchId) {
         return matchScheduleMapper.selectMatchById(matchId);
     }

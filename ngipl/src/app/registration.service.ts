@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './user';
-import { UserPrediction } from './domain/user-prediction';
+import { UserPrediction, UserScorecard } from './domain/user-prediction';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -29,5 +29,9 @@ export class RegistrationService {
 
   public getUserPredictionFromRemote(userPrediction: UserPrediction):Observable<any> {
     return this._http.post<any>("http://192.168.0.109:8080/getUserPrediction", userPrediction);
+  }
+
+  public getOverallLeaderboardFromRemote():Observable<any> {
+    return this._http.post<any>("http://192.168.0.109:8080/getOverallLeaderboard", '');
   }
 }

@@ -1,10 +1,6 @@
 package com.cricket.ipl.controller;
 
-import com.cricket.ipl.IplApplication;
-import com.cricket.ipl.dao.MatchScheduleDao;
-import com.cricket.ipl.dao.PlayerDao;
-import com.cricket.ipl.dao.UserDao;
-import com.cricket.ipl.dao.UserPredictionDao;
+import com.cricket.ipl.dao.*;
 import com.cricket.ipl.domain.*;
 import com.cricket.ipl.util.NetworkConstants;
 import org.slf4j.Logger;
@@ -31,6 +27,10 @@ public class MainController {
     private UserPredictionDao userPredictionDao;
 
     @Autowired
+    @Qualifier("userScorecardDaoImpl")
+    private UserScorecardDao userScorecardDao;
+
+    @Autowired
     @Qualifier("matchScheduleDaoImpl")
     private MatchScheduleDao matchScheduleDao;
 
@@ -49,7 +49,15 @@ public class MainController {
             }
         }
         userDao.insert(user);
+        user = userDao.getUserByEmailId(user.getEmailId());
+        insertUserToUserScorecard(user);
         return user;
+    }
+
+    private void insertUserToUserScorecard(User user) {
+
+        UserScorecard userScorecard = new UserScorecard(user.getId(), user.getEmailId(), user.getUserName(), 0);
+        userScorecardDao.insert(userScorecard);
     }
 
     @PostMapping("/login")
@@ -106,30 +114,41 @@ public class MainController {
     public UserPrediction getUserPrediction(@RequestBody UserPrediction userPrediction) throws Exception {
 
         try {
-            return userPredictionDao.getMatchPrediction(userPrediction.getEmailId(), userPrediction.getMatchId());
+            return userPredictionDao.getUserPredictionByMatchIdAndEmailId(userPrediction.getEmailId(), userPrediction.getMatchId());
         } catch (Exception ex) {
             throw new Exception("Prediction update failed for "+userPrediction.getEmailId()+" details :"+ userPrediction);
         }
     }
 
+    @PostMapping("/getOverallLeaderboard")
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    public List<UserScorecard> getOverallLeaderboard() throws Exception {
 
-    // @RequestMapping("/users")
+        try {
+            return userScorecardDao.getOverallScorecard();
+        } catch (Exception ex) {
+            throw new Exception("failed to fetch overall scorecard");
+        }
+    }
+
+
+    /*@RequestMapping("/users")
     public List<User> getTopicList(){
         return userDao.getAllUsers();
     }
 
-    // @RequestMapping("/users/{id}")
+    @RequestMapping("/users/{id}")
     public User getUser(@PathVariable Integer id){
         return userDao.getUserById(id);
     }
 
-    // @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/users/{id}")
     public void updateUser(@RequestBody User user, @PathVariable Integer id){
         userDao.updatePassword(id, user.getPassword());
     }
 
-    // @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
     public void deleteUser(@PathVariable Integer id){
         userDao.delete(id);
-    }
+    }*/
 }

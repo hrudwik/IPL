@@ -1,12 +1,10 @@
 package com.cricket.ipl.dao.impl;
 
-import com.cricket.ipl.dao.UserDao;
 import com.cricket.ipl.dao.UserPredictionDao;
-import com.cricket.ipl.dao.mybatis.mapper.UserMapper;
 import com.cricket.ipl.dao.mybatis.mapper.UserPredictionMapper;
-import com.cricket.ipl.domain.User;
 import com.cricket.ipl.domain.UserPrediction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +18,7 @@ public class UserPredictionImpl implements UserPredictionDao {
 
     @Override
     public boolean upsert(UserPrediction userPrediction) throws Exception {
-        UserPrediction userPredictionTemp = getMatchPrediction(userPrediction.getEmailId(), userPrediction.getMatchId());
+        UserPrediction userPredictionTemp = getUserPredictionByMatchIdAndEmailId(userPrediction.getEmailId(), userPrediction.getMatchId());
 
         try {
             if(userPredictionTemp == null) {
@@ -46,7 +44,27 @@ public class UserPredictionImpl implements UserPredictionDao {
     }
 
     @Override
-    public UserPrediction getMatchPrediction(String emailId, Integer matchId) {
-        return userPredictionMapper.getMatchPrediction(emailId, matchId);
+    public boolean updatePoints(UserPrediction userPrediction) {
+        return userPredictionMapper.updatePoints(userPrediction);
+    }
+
+    @Override
+    public UserPrediction getUserPredictionByMatchIdAndEmailId(String emailId, Integer matchId) {
+        return userPredictionMapper.getUserPredictionByMatchIdAndEmailId(emailId, matchId);
+    }
+
+    @Override
+    public List<UserPrediction> getUserPredictionsByMatchId(Integer matchId) {
+        return userPredictionMapper.getUserPredictionsByMatchId(matchId);
+    }
+
+    @Override
+    public List<UserPrediction> getAllUserPredictions() {
+        return userPredictionMapper.getAllUserPredictions();
+    }
+
+    @Override
+    public List<Pair<String, Integer>> getAllUserSpecificPredictions() {
+        return userPredictionMapper.getAllUserSpecificPredictions();
     }
 }

@@ -12,17 +12,20 @@ public class UserPrediction implements Serializable {
     private String bestBowler;
     private String manOfTheMatch;
     private String winner;
+    private Integer points;
 
     public UserPrediction() {
     }
 
-    public UserPrediction(String emailId, Integer matchId, String bestBatsmen, String bestBowler, String manOfTheMatch, String winner) {
+    public UserPrediction(String emailId, Integer matchId, String bestBatsmen, String bestBowler,
+                          String manOfTheMatch, String winner, Integer points) {
         this.emailId = emailId;
         this.matchId = matchId;
         this.bestBatsmen = bestBatsmen;
         this.bestBowler = bestBowler;
         this.manOfTheMatch = manOfTheMatch;
         this.winner = winner;
+        this.points = points;
     }
 
     public String getEmailId() {
@@ -73,6 +76,14 @@ public class UserPrediction implements Serializable {
         this.winner = winner;
     }
 
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
     @Override
     public String toString() {
         return "UserPrediction{" +
@@ -82,6 +93,7 @@ public class UserPrediction implements Serializable {
                 ", bestBowler='" + bestBowler + '\'' +
                 ", manOfTheMatch='" + manOfTheMatch + '\'' +
                 ", winner='" + winner + '\'' +
+                ", points=" + points +
                 '}';
     }
 }
