@@ -8,10 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 @Service("feedPlayerReader")
 public class FeedPlayerReaderImpl implements FeedPlayerReader {
@@ -21,8 +24,9 @@ public class FeedPlayerReaderImpl implements FeedPlayerReader {
 
     @Override
     public List<Player> read() {
-        try (Reader reader = Files.newBufferedReader(Paths.get(
-                ClassLoader.getSystemResource(fileName).toURI()))) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream inputStream = cl.getResourceAsStream(fileName);
+        try ( Reader reader = new InputStreamReader(inputStream)) {
             LOGGER.info("About to read players from csv : {}", fileName);
             List<Player> stockPrices = new CsvToBeanBuilder<Player>(reader)
                     .withType(Player.class)
