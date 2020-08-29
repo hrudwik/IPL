@@ -23,6 +23,7 @@ public class FeedPlayerReaderImpl implements FeedPlayerReader {
     public List<Player> read() {
         try (Reader reader = Files.newBufferedReader(Paths.get(
                 ClassLoader.getSystemResource(fileName).toURI()))) {
+            LOGGER.info("About to read players from csv : {}", fileName);
             List<Player> stockPrices = new CsvToBeanBuilder<Player>(reader)
                     .withType(Player.class)
                     .build().parse();

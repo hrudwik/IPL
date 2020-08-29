@@ -1,5 +1,7 @@
 package com.cricket.ipl.domain;
 
+import com.opencsv.bean.CsvBindByName;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +16,11 @@ public class Player implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @CsvBindByName(required = true, column = "playerId")
     private Integer playerId;
+    @CsvBindByName(required = true, column = "playerName")
     private String playerName;
+    @CsvBindByName(required = true, column = "teamName")
     private String teamName;
 
     public Player() {
