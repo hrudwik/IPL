@@ -49,11 +49,6 @@ public class MainController {
         }
     }
 
-    @GetMapping
-    String hello() {
-        return "Hello World";
-    }
-
     @PostMapping("/registeruser")
     @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public User registerUser(@RequestBody User user) throws Exception {
