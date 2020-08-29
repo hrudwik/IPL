@@ -177,6 +177,7 @@ public class FeedPlayerProcessor {
 
         Player playerInDb = playerDao.selectPlayerById(1);
         if(playerInDb == null) {
+            LOGGER.info("About to read players from csv");
             List<Player> players = feedPlayerReader.read();
 
             for (Player player : players) {
