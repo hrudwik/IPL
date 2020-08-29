@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ViewController {
 
     // examples: @RequestMapping({ "/home", "/home/predict", "/home/**"})
-    @RequestMapping({ "/login", "/registration", "/home", "/home/**"})
+    @RequestMapping({ "/", "/login", "/registration", "/home", "/home/**"})
     public String index() {
         return "forward:/index.html";
     }

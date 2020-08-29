@@ -50,7 +50,7 @@ public class MainController {
     }
 
     @PostMapping("/registeruser")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public User registerUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         String tempUserName = user.getUserName();
@@ -78,7 +78,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public User loginUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         String tempPassword = user.getPassword();
@@ -93,7 +93,7 @@ public class MainController {
     }
 
     @PostMapping("/nextThreeMatchDetails")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public List<MatchDetails> nextThreeMatchDetails() throws Exception {
         List<MatchDetails> matchDetailList = new ArrayList<>();
         List<MatchSchedule> matchScheduleList = matchScheduleDao.selectNextThreeMatchs();
@@ -116,7 +116,7 @@ public class MainController {
     }
 
     @PostMapping("/getAllMatchDetails")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public List<MatchDetails> getAllMatchDetails() throws Exception {
         List<MatchDetails> matchDetailList = new ArrayList<>();
         List<MatchSchedule> matchScheduleList = matchScheduleDao.getMatchSchedule();
@@ -138,7 +138,7 @@ public class MainController {
     }
 
     @PostMapping("/updateUserPrediction")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public Boolean updateUserPrediction(@RequestBody UserPrediction userPrediction) throws Exception {
 
         try {
@@ -150,7 +150,7 @@ public class MainController {
     }
 
     @PostMapping("/getUserPrediction")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public UserPrediction getUserPrediction(@RequestBody UserPrediction userPrediction) throws Exception {
 
         try {
@@ -161,7 +161,7 @@ public class MainController {
     }
 
     @PostMapping("/getOverallLeaderboard")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public List<UserScorecard> getOverallLeaderboard() throws Exception {
 
         try {
@@ -172,7 +172,7 @@ public class MainController {
     }
 
     @PostMapping("/getLeaderboardForMatch")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public List<UserPrediction> getLeaderboardForMatch(@RequestBody MatchDetails matchDetails) throws Exception {
 
         try {
@@ -183,7 +183,7 @@ public class MainController {
     }
 
     @PostMapping("/getPaidLeaderboardForMatch")
-    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2})
+    @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public List<UserPrediction> getPaidLeaderboardForMatch(@RequestBody MatchDetails matchDetails) throws Exception {
 
         try {
