@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,15 +23,21 @@ public class FeedMatchScheduleReaderImpl implements FeedMatchScheduleReader {
 
     @Override
     public List<MatchSchedule> read() {
-        try (Reader reader = Files.newBufferedReader(Paths.get(
-                ClassLoader.getSystemResource(fileName).toURI()))) {
-            List<MatchSchedule> matchScheduleList = new CsvToBeanBuilder<MatchSchedule>(reader)
+        List<MatchSchedule> matchScheduleList = null;
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream inputStream = cl.getResourceAsStream(fileName);
+        assert inputStream != null;
+        try (Reader reader = new InputStreamReader(inputStream) ) {
+            matchScheduleList = new CsvToBeanBuilder<MatchSchedule>(reader)
                     .withType(MatchSchedule.class)
                     .build().parse();
             LOGGER.info("FeedMatchScheduleReader read {} matches from file : {}", matchScheduleList.size(), fileName);
             return matchScheduleList;
         } catch (Exception e) {
-            throw new RuntimeException("Unable to connect to players.csv. Due to Exception :" + e.getMessage());
+            LOGGER.error("Unable to read all mathces from matchscedule.csv. Due to Exception :" + e.getMessage());
+            return matchScheduleList;
+        } finally {
+            return matchScheduleList;
         }
     }
 }

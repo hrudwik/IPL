@@ -24,17 +24,22 @@ public class FeedPlayerReaderImpl implements FeedPlayerReader {
 
     @Override
     public List<Player> read() {
+        List<Player> stockPrices = null;
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream inputStream = cl.getResourceAsStream(fileName);
-        try ( Reader reader = new InputStreamReader(inputStream)) {
+        assert inputStream != null;
+        try (Reader reader = new InputStreamReader(inputStream) ) {
             LOGGER.info("About to read players from csv : {}", fileName);
-            List<Player> stockPrices = new CsvToBeanBuilder<Player>(reader)
+            stockPrices = new CsvToBeanBuilder<Player>(reader)
                     .withType(Player.class)
                     .build().parse();
             LOGGER.info("FeedPlayerReader read {} players from file : {}", stockPrices.size(), fileName);
             return stockPrices;
         } catch (Exception e) {
-            throw new RuntimeException("Unable to connect to players.csv. Due to Exception :" + e.getMessage());
+            LOGGER.error("Unable to read all players from players.csv. Due to Exception :" + e.getMessage());
+            return stockPrices;
+        } finally {
+            return stockPrices;
         }
     }
 }
