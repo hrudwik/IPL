@@ -16,6 +16,10 @@ public interface UserDao {
 
     User getUserByEmailId(String emailId);
 
+    User getUserByUserName(String userName);
+
+    User getUserByPhoneNumber(String phoneNumber);
+
     User getUserByEmailIdAndPassword(String emailId, String password);
 
     List<User> getAllUsers();

@@ -8,6 +8,7 @@ import { PredictComponent } from './predict/predict.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { RulesComponent } from './rules/rules.component';
 import { LogoutComponent } from './logout/logout.component';
+import { WalletComponent } from './wallet/wallet.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'home', pathMatch:'full'},
@@ -19,6 +20,7 @@ const routes: Routes = [
     {path:'privateLeague', component:PrivateLeagueComponent},
     {path:'leaderboard', component:LeaderboardComponent},
     {path:'rules', component:RulesComponent},
+    {path:'wallet', component:WalletComponent}
   ]}
 ];
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from './user';
 import { UserPrediction, UserScorecard } from './domain/user-prediction';
 import { Observable } from 'rxjs';
+import { MatchDetails } from './predict/predict.component';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class RegistrationService {
     return this._http.post<any>("http://192.168.0.109:8080/nextThreeMatchDetails", null);
   }
 
+  public getAllMatchDetailsFromRemote():Observable<any> {
+    return this._http.post<any>("http://192.168.0.109:8080/getAllMatchDetails", null);
+  }
+
   public updateUserPredictionFromRemote(userPrediction: UserPrediction):Observable<any> {
     return this._http.post<any>("http://192.168.0.109:8080/updateUserPrediction", userPrediction);
   }
@@ -32,6 +37,14 @@ export class RegistrationService {
   }
 
   public getOverallLeaderboardFromRemote():Observable<any> {
-    return this._http.post<any>("http://192.168.0.109:8080/getOverallLeaderboard", '');
+    return this._http.post<any>("http://192.168.0.109:8080/getOverallLeaderboard", null);
+  }
+
+  public getLeaderboardForMatchFromRemote(matchDetails: MatchDetails):Observable<any> {
+    return this._http.post<any>("http://192.168.0.109:8080/getLeaderboardForMatch", matchDetails);
+  }
+
+  public getPaidLeaderboardForMatchFromRemote(matchDetails: MatchDetails):Observable<any> {
+    return this._http.post<any>("http://192.168.0.109:8080/getPaidLeaderboardForMatch", matchDetails);
   }
 }

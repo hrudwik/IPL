@@ -41,7 +41,7 @@ export class PredictFormModalComponent implements OnInit {
   getUserPredictionFromServer() {
 
     let userPrediction: UserPrediction = new UserPrediction(this.sessionEmailId, this.matchDetails.matchId,
-      null, null, null, null, null);
+      null, null, null, null, null, null, null);
 
     this._service.getUserPredictionFromRemote(userPrediction).subscribe(
       data => {

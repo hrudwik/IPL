@@ -30,8 +30,10 @@ export class RegistrationComponent implements OnInit {
         this._router.navigate(['/login'])
       },
       error => {
-        console.log("exception occured");
-        this.msg="Registration Failed with error: ("+ error.error.msg +")";
+        console.log("exception occured, printing it:");
+        console.log(error)
+        // this.msg="Registration Failed with error: ("+ error.error.msg +")";
+        this.msg=error.error.message;
       }
     )
   }

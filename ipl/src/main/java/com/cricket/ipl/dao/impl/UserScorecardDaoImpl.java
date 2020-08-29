@@ -29,6 +29,17 @@ public class UserScorecardDaoImpl implements UserScorecardDao {
     }
 
     @Override
+    public boolean updateMoney(String emailId, Integer money) {
+        return userScorecardMapper.updateMoney(emailId, money);
+    }
+
+    @Override
+    public UserScorecard getUserScorecard(String emailId) {
+        return  userScorecardMapper.getUserScorecard(emailId);
+    }
+
+
+    @Override
     public List<UserScorecard> getOverallScorecard() {
         return userScorecardMapper.getOverallScorecard();
     }

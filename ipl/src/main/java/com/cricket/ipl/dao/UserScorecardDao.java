@@ -11,5 +11,9 @@ public interface UserScorecardDao {
 
     boolean updateScorecard(String emailId, Integer points);
 
+    boolean updateMoney(String emailId, Integer money);
+
+    UserScorecard getUserScorecard(String emailId);
+
     List<UserScorecard> getOverallScorecard();
 }

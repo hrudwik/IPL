@@ -17,7 +17,6 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service("feedPlayerProcessor")
 public class FeedPlayerProcessor {
@@ -57,6 +56,76 @@ public class FeedPlayerProcessor {
         }
     }
 
+    private void updateWinningsForPaidUsers(List<MatchSchedule> matchScheduleList) {
+
+        for (MatchSchedule match : matchScheduleList) {
+            if(match.getWinner() != null && !match.getWinner().equals("")) {
+                Integer matchId = match.getMatchId();
+                List<UserPrediction> userPredictions = userPredictionDao.getPaidUsersPredictionsByMatchId(matchId);
+
+                UserPrediction firstWinner = null;
+                UserPrediction secondWinner = null;
+                UserPrediction thirdWinner = null;
+                if(userPredictions.size() == 0){
+                    return;
+                } else if(userPredictions.size() == 1){
+                    firstWinner = userPredictions.get(0);
+                    int firstWinnings = userPredictions.get(0).getBet();
+                    firstWinner.setWinnings(firstWinnings);
+                } else if(userPredictions.size() == 2) {
+                    firstWinner = userPredictions.get(0);
+                    secondWinner = userPredictions.get(1);
+                    int pot = userPredictions.stream().mapToInt(UserPrediction::getBet).sum();
+                    int firstWinnings = pot/2;
+                    int secondWinnings = pot/4;
+                    if(firstWinner.getPoints().equals(secondWinner.getPoints())) {
+                        firstWinnings = (firstWinnings + secondWinnings)/2;
+                        secondWinnings = firstWinnings;
+                    }
+                    firstWinner.setWinnings(firstWinnings);
+                    secondWinner.setWinnings(secondWinnings);
+
+                } else {
+                    firstWinner = userPredictions.get(0);
+                    secondWinner = userPredictions.get(1);
+                    thirdWinner = userPredictions.get(2);
+
+                    int pot = userPredictions.stream().mapToInt(UserPrediction::getBet).sum();
+                    int firstWinnings = pot/2;
+                    int secondWinnings = pot/4;
+                    int thirdWinnings = pot/5;
+
+                    if( (firstWinner.getPoints().equals(secondWinner.getPoints())) &&
+                            (firstWinner.getPoints().equals(thirdWinner.getPoints())) ) {
+                        firstWinnings = (firstWinnings + secondWinnings + thirdWinnings)/3;
+                        secondWinnings = firstWinnings;
+                        thirdWinnings = firstWinnings;
+                    }else if(firstWinner.getPoints().equals(secondWinner.getPoints())) {
+                        firstWinnings = (firstWinnings + secondWinnings)/2;
+                        secondWinnings = firstWinnings;
+                    } else if(secondWinner.getPoints().equals(thirdWinner.getPoints())) {
+                        secondWinnings = (secondWinnings + thirdWinnings)/2;
+                        thirdWinnings = secondWinnings;
+                    }
+
+                    firstWinner.setWinnings(firstWinnings);
+                    secondWinner.setWinnings(secondWinnings);
+                    thirdWinner.setWinnings(thirdWinnings);
+                }
+
+                if(firstWinner != null){
+                    userPredictionDao.updateWinnings(firstWinner);
+                }
+                if(secondWinner != null){
+                    userPredictionDao.updateWinnings(secondWinner);
+                }
+                if(thirdWinner != null){
+                    userPredictionDao.updateWinnings(thirdWinner);
+                }
+            }
+        }
+    }
+
     private void updateOverallUserScoreboard() {
         List<Pair<String, Integer>> userPredictions = userPredictionDao.getAllUserSpecificPredictions();
 
@@ -78,7 +147,7 @@ public class FeedPlayerProcessor {
                 String bestBatsmen = match.getBestBatsmen();
                 String bestBowler = match.getBestBowler();
                 String manOfTheMatch = match.getManOfTheMatch();
-                List<UserPrediction> userPredictions = userPredictionDao.getUserPredictionsByMatchId(matchId);
+                List<UserPrediction> userPredictions = userPredictionDao.getUsersPredictionsByMatchId(matchId);
                 for (UserPrediction userPrediction : userPredictions) {
                     // free 5 points for prediction
                     int points = 5;
@@ -99,6 +168,9 @@ public class FeedPlayerProcessor {
                 }
             }
         }
+
+        //Finally update user winnings
+        updateWinningsForPaidUsers(matchScheduleList);
     }
 
     private void updatePlayersInDb() {

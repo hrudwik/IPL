@@ -1,48 +1,55 @@
-<div class="container">
+<div class="container" width="100%" style="width: 100%; height: max-content;">
   <div class="row justify-content-center">
 
-      <div class="col-md-4">
-          <div class="card shadow" style="width: 20rem;">
-              <div class="inner">
-                  <img src={{match1.imagePath}} class="card-img-top" alt="...">
-              </div>
-              <div class="card-body text-center">
-                <h5 class="card-title">{{match1.matchTitle}}</h5>
-                <p class="card-text">{{match1.time}}</p>
-                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">{{match1.teamName1}}</button> 
-                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">{{match1.teamName2}}</button> 
-                <!-- <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">Predict</button> -->
-              </div>
-            </div>
-      </div>
+    <ngb-tabset type="pills">
+      <ngb-tab>
+        <ng-template ngbTabTitle><b>Paid Leaderboard</b></ng-template>
+        <ng-template ngbTabContent>
+            <div>
+                <form [formGroup]="myForm" (ngSubmit)="submitForm()">
+                    <div class="form-group">
+                        <label for="match">Team: </label>
+                        <div class="input-group">
+                          <select data-placeholder="Select Match" class="form-control chosen-select" style="width:350px;" 
+                                    tabindex="2" formControlName="match" (change)="onChange($event)">
+                            <option [ngValue]="null" disabled>Choose Match</option>
+                            <option *ngFor="let match of matches" [value]="match.matchId">{{ match.matchTitle }}</option>
+                          </select>
+                        </div>
+                    </div>
+                </form>
 
-      <div class="col-md-4">
-          <div class="card shadow" style="width: 20rem;">
-              <div class="inner">
-                  <img src={{match2.imagePath}} class="card-img-top" alt="...">
-              </div>
-              <div class="card-body text-center">
-                <h5 class="card-title">{{match2.matchTitle}}</h5>
-                <p class="card-text">{{match2.time}}</p>
-                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">{{match2.teamName1}}</button> 
-                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">{{match2.teamName2}}</button> 
-                <!-- <button class="btn btn-lg btn-outline-primary" (click)="openFormModalSecond()">Predict</button> -->
-              </div>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Rank</th>
+                        <th scope="col">Email Id</th>
+                        <th scope="col">Team</th>
+                        <th scope="col">Best Batsmen</th>
+                        <th scope="col">Best Bowler</th>
+                        <th scope="col">Man Of The Match</th>
+                        <th scope="col">Points</th>
+                        <th scope="col">Bet</th>
+                        <th scope="col">Winnings</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor= "let item of userPrediction;let indexOfelement=index;">
+                            <td>{{indexOfelement+1}}</td>
+                            <td>{{ item.emailId }}</td>
+                            <td>{{ item.winner }}</td>
+                            <td>{{ item.bestBatsmen }}</td>
+                            <td>{{ item.bestBowler }}</td>
+                            <td>{{ item.manOfTheMatch }}</td>
+                            <td>{{ item.points }}</td>
+                            <td>{{ item.bet }}</td>
+                            <td>{{ item.winnings }}</td>
+                        </tr>
+                      </tbody>
+                  </table>
             </div>
-      </div>
-      <div class="col-md-4">
-          <div class="card shadow" style="width: 20rem;">
-              <div class="inner">
-                  <img src={{match3.imagePath}} class="card-img-top" alt="...">
-              </div>
-              <div class="card-body text-center">
-                <h5 class="card-title">{{match3.matchTitle}}</h5>
-                <p class="card-text">{{match3.time}}</p>
-                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">{{match3.teamName1}}</button> 
-                <button class="btn btn-lg btn-outline-primary" (click)="openFormModalFirst()">{{match3.teamName2}}</button> 
-                <!-- <button class="btn btn-lg btn-outline-primary" (click)="openFormModalThird()">Predict</button> -->
-              </div>
-            </div>
-      </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
   </div>
 </div>

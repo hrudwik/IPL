@@ -16,15 +16,17 @@ public class UserScorecard implements Serializable {
     private String emailId;
     private String userName;
     private Integer points;
+    private Integer money;
 
     public UserScorecard() {
     }
 
-    public UserScorecard(Integer userId, String emailId, String userName, Integer points) {
+    public UserScorecard(Integer userId, String emailId, String userName, Integer points, Integer money) {
         this.userId = userId;
         this.emailId = emailId;
         this.userName = userName;
         this.points = points;
+        this.money = money;
     }
 
     public Integer getUserId() {
@@ -59,6 +61,14 @@ public class UserScorecard implements Serializable {
         this.points = points;
     }
 
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
     @Override
     public String toString() {
         return "UserScorecard{" +
@@ -66,6 +76,7 @@ public class UserScorecard implements Serializable {
                 ", emailId='" + emailId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", points=" + points +
+                ", money=" + money +
                 '}';
     }
 }

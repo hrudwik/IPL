@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS userscorecard (
                     userId INT PRIMARY KEY,
                     emailId varchar(50),
                     userName varchar(50),
-                    points INT
+                    points INT,
+                    money INT
                     );
 
 CREATE TABLE IF NOT EXISTS userprediction (
@@ -20,7 +21,9 @@ CREATE TABLE IF NOT EXISTS userprediction (
                     bestBowler varchar(50),
                     manOfTheMatch varchar(50),
                     winner varchar(50),
-                    points INT
+                    points INT,
+                    bet INT,
+                    winnings INT
                     );
 
 CREATE TABLE IF NOT EXISTS players (

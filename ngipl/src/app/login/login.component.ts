@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.sessionEmailId = sessionStorage.getItem("emailId");
+    console.log(this.sessionEmailId)
     if(this.sessionEmailId != null){
       this._router.navigate(['/home'])
     }

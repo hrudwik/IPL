@@ -4,7 +4,6 @@ import com.cricket.ipl.domain.UserPrediction;
 import org.springframework.data.util.Pair;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserPredictionDao {
 
@@ -12,13 +11,17 @@ public interface UserPredictionDao {
 
     boolean insert(UserPrediction userPrediction);
 
-    boolean updatePrediction(UserPrediction userPrediction);
+    void updatePrediction(UserPrediction userPrediction);
 
-    boolean updatePoints(UserPrediction userPrediction);
+    void updatePoints(UserPrediction userPrediction);
+
+    void updateWinnings(UserPrediction userPrediction);
 
     UserPrediction getUserPredictionByMatchIdAndEmailId(String emailId, Integer matchId);
 
-    List<UserPrediction> getUserPredictionsByMatchId(Integer matchId);
+    List<UserPrediction> getUsersPredictionsByMatchId(Integer matchId);
+
+    List<UserPrediction> getPaidUsersPredictionsByMatchId(Integer matchId);
 
     List<UserPrediction> getAllUserPredictions();
 

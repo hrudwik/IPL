@@ -14,13 +14,19 @@ import java.util.List;
 public interface UserScorecardMapper extends UserDao {
 
 
-    @Insert("INSERT INTO userscorecard (userId, emailId, userName, points) VALUES " +
-            "( #{userId}, #{emailId}, #{userName}, #{points} )")
+    @Insert("INSERT INTO userscorecard (userId, emailId, userName, points, money) VALUES " +
+            "( #{userId}, #{emailId}, #{userName}, #{points}, #{money} )")
     boolean insert(UserScorecard userScorecard);
 
     @Insert("UPDATE userscorecard set points=#{points} WHERE emailId = #{emailId}")
     boolean updateScorecard(String emailId, Integer points);
 
-    @Select("SELECT userId, emailId, userName, points FROM userscorecard order by points desc")
+    @Insert("UPDATE userscorecard set money=#{money} WHERE emailId = #{emailId}")
+    boolean updateMoney(String emailId, Integer money);
+
+    @Select("SELECT userId, emailId, userName, points, money FROM userscorecard WHERE emailId = #{emailId}")
+    UserScorecard getUserScorecard(String emailId);
+
+    @Select("SELECT userId, emailId, userName, points, money FROM userscorecard order by points desc")
     List<UserScorecard> getOverallScorecard();
 }

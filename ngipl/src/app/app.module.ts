@@ -16,6 +16,7 @@ import { RulesComponent } from './rules/rules.component';
 import { PrivateLeagueComponent } from './private-league/private-league.component';
 import { PredictFormModalComponent } from './predict-form-modal/predict-form-modal.component';
 import { LogoutComponent } from './logout/logout.component';
+import { WalletComponent } from './wallet/wallet.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LogoutComponent } from './logout/logout.component';
     RulesComponent,
     PrivateLeagueComponent,
     PredictFormModalComponent,
-    LogoutComponent
+    LogoutComponent,
+    WalletComponent
   ],
   imports: [
     BrowserModule,

@@ -28,6 +28,12 @@ public interface UserMapper extends UserDao {
     @Select("SELECT id, emailId, userName, phoneNumber, password FROM \"user\" WHERE emailId = #{emailId}")
     User getUserByEmailId(String emailId);
 
+    @Select("SELECT id, emailId, userName, phoneNumber, password FROM \"user\" WHERE userName = #{userName}")
+    User getUserByUserName(String userName);
+
+    @Select("SELECT id, emailId, userName, phoneNumber, password FROM \"user\" WHERE phoneNumber = #{phoneNumber}")
+    User getUserByPhoneNumber(String phoneNumber);
+
     @Select("SELECT id, emailId, userName, phoneNumber, password FROM \"user\" WHERE emailId = #{emailId} and password = #{password}")
     User getUserByEmailIdAndPassword(String emailId, String password);
 

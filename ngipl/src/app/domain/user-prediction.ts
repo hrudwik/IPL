@@ -6,8 +6,10 @@ export class UserPrediction {
     manOfTheMatch:string;
     winner:string;
     points:number;
+    bet:number;
+    winnings:number;
     constructor(emailId: string, matchId: number, bestBatsmen: string, bestBowler: string,
-        manOfTheMatch: string, winner: string, points:number){
+        manOfTheMatch: string, winner: string, points:number, bet:number, winnings:number){
             this.emailId = emailId;
             this.matchId = matchId;
             this.bestBatsmen = bestBatsmen;
@@ -15,6 +17,8 @@ export class UserPrediction {
             this.manOfTheMatch = manOfTheMatch;
             this.winner = winner;
             this.points = points;
+            this.bet = bet;
+            this.winnings = winnings;
         }
 }
 
@@ -23,10 +27,5 @@ export class UserScorecard {
     emailId:string;
     userName:string;
     points:number;
-    // constructor(userId: number, emailId: string, userName: string, points: number){
-    //         this.userId = userId;
-    //         this.emailId = emailId;
-    //         this.userName = userName;
-    //         this.points = points;
-    //     }
+    money:number;
 }
