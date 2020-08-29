@@ -10,3 +10,7 @@ cache/
 out/
 target/
 temp.md
+*.iml
+*.ipr
+*.iws
+.DS_Store
