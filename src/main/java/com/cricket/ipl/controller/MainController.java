@@ -68,7 +68,7 @@ public class MainController {
 
     @PostMapping("/registeruser")
     // @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
-    public User registerUser(@RequestBody User user, HttpServletRequest request, Errors errors) throws Exception {
+    public User registerUser(@RequestBody User user) throws Exception {
         String tempEmailId = user.getEmailId();
         String tempUserName = user.getUserName();
         String tempPhoneNo = user.getPhoneNumber();
