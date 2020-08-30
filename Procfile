@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/ipl-0.0.1-SNAPSHOT.jar
+web: java -Dspring.profiles.active=uat -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/ipl-0.0.1-SNAPSHOT.jar
