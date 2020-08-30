@@ -1,9 +1,6 @@
 package com.cricket.ipl.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -21,15 +18,21 @@ public class User implements Serializable {
     private String userName;
     private String phoneNumber;
     private String password;
+    @Column(name = "enabled")
+    private boolean enabled;
+    private String token;
 
     public User() {
+        super();
+        this.enabled=false;
     }
 
-    public User(Integer id, String userName, String emailId, String password) {
+    public User(Integer id, String userName, String emailId, String password, boolean enabled) {
         this.id = id;
         this.userName = userName;
         this.emailId = emailId;
         this.password = password;
+        this.enabled = enabled;
     }
 
     public static long getSerialVersionUID() {
@@ -73,6 +76,22 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -81,6 +100,8 @@ public class User implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

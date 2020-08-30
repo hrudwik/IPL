@@ -3,7 +3,16 @@ CREATE TABLE IF NOT EXISTS "user" (
                     emailId varchar(50),
                     userName varchar(50),
                     phoneNumber varchar(20),
-                    password varchar(20)
+                    password varchar(20),
+                    enabled boolean,
+                    token varchar(100)
+                    );
+
+CREATE TABLE IF NOT EXISTS verificationtoken (
+                    id SERIAL PRIMARY KEY,
+                    token varchar(50),
+                    emailId varchar(50),
+                    expiryDate TIMESTAMP
                     );
 
 CREATE TABLE IF NOT EXISTS userscorecard (

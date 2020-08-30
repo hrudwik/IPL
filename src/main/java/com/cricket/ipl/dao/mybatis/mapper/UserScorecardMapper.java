@@ -1,6 +1,7 @@
 package com.cricket.ipl.dao.mybatis.mapper;
 
 import com.cricket.ipl.dao.UserDao;
+import com.cricket.ipl.dao.UserScorecardDao;
 import com.cricket.ipl.domain.User;
 import com.cricket.ipl.domain.UserScorecard;
 import org.apache.ibatis.annotations.Delete;
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface UserScorecardMapper extends UserDao {
+public interface UserScorecardMapper extends UserScorecardDao {
 
 
     @Insert("INSERT INTO userscorecard (userId, emailId, userName, points, money) VALUES " +

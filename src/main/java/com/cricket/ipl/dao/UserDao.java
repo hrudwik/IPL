@@ -1,6 +1,7 @@
 package com.cricket.ipl.dao;
 
 import com.cricket.ipl.domain.User;
+import com.cricket.ipl.domain.VerificationToken;
 
 import java.util.List;
 
@@ -8,9 +9,17 @@ public interface UserDao {
 
     boolean insert(User user);
 
-    boolean updatePassword(Integer id, String password);
+    boolean updatePassword(String emailId, String password);
+
+    boolean updateEnabled(User user);
 
     boolean delete(Integer id);
+
+    void createVerificationToken(User user, String token);
+
+    VerificationToken getVerificationToken(String VerificationToken);
+
+    User getUserByVerificationToken(String verificationToken);
 
     User getUserById(Integer id);
 

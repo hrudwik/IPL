@@ -2,19 +2,26 @@ package com.cricket.ipl.controller;
 
 import com.cricket.ipl.dao.*;
 import com.cricket.ipl.domain.*;
+import com.cricket.ipl.events.OnRegistrationCompleteEvent;
 import com.cricket.ipl.util.NetworkConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -22,6 +29,15 @@ import java.util.stream.Collectors;
 public class MainController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+
+    @Autowired
+    ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    private MessageSource messages;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     @Qualifier("userDaoImpl")
@@ -52,7 +68,7 @@ public class MainController {
 
     @PostMapping("/registeruser")
     // @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
-    public User registerUser(@RequestBody User user) throws Exception {
+    public User registerUser(@RequestBody User user, HttpServletRequest request, Errors errors) throws Exception {
         String tempEmailId = user.getEmailId();
         String tempUserName = user.getUserName();
         String tempPhoneNo = user.getPhoneNumber();
@@ -74,8 +90,66 @@ public class MainController {
                 throw new ConstraintViolationException("User with phone number \""+tempPhoneNo+"\" already exists", Collections.emptySet());
             }
         }
+
+        user.setEnabled(false);
         userDao.insert(user);
+
+        confirmRegistration(user);
+        // String appUrl = request.getContextPath();
+        // eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
+
         return user;
+    }
+
+    private void confirmRegistration(User user) {
+        String token = UUID.randomUUID().toString();
+        userDao.createVerificationToken(user, token);
+
+        String recipientAddress = user.getEmailId();
+        String subject = "Registration Confirmation";
+        String confirmationUrl
+                = "http://ipl-prediction-t20.herokuapp.com" + "/regitrationConfirm.html?token=" + token;
+        // String message = messages.getMessage("message.regSucc", null, Locale.ENGLISH);
+        String message = "Hi " + user.getUserName() + " please click on below url to confirm registration";
+
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(recipientAddress);
+        email.setSubject(subject);
+        email.setText(message + "\r\n" + confirmationUrl);
+        try {
+            mailSender.send(email);
+        } catch(MailException e){
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping("/regitrationConfirm")
+    public String confirmRegistration
+            (WebRequest request, Model model, @RequestParam("token") String token) {
+
+        Locale locale = request.getLocale();
+
+        VerificationToken verificationToken = userDao.getVerificationToken(token);
+        if (verificationToken == null) {
+            String message = messages.getMessage("auth.message.invalidToken", null, locale);
+            model.addAttribute("message", message);
+            return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        }
+
+        String emailId = verificationToken.getEmailId();
+        User user = userDao.getUserByEmailId(emailId);
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            String messageValue = messages.getMessage("auth.message.expired", null, locale);
+            model.addAttribute("message", messageValue);
+            return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        }
+
+        user.setEnabled(true);
+        userDao.updateEnabled(user);
+        return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
     }
 
     @PostMapping("/login")

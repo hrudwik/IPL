@@ -2,9 +2,11 @@ package com.cricket.ipl.dao.impl;
 
 import com.cricket.ipl.dao.UserDao;
 import com.cricket.ipl.dao.UserScorecardDao;
+import com.cricket.ipl.dao.VerificationTokenDao;
 import com.cricket.ipl.dao.mybatis.mapper.UserMapper;
 import com.cricket.ipl.domain.User;
 import com.cricket.ipl.domain.UserScorecard;
+import com.cricket.ipl.domain.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -21,6 +23,10 @@ public class UserDaoImpl implements UserDao {
     @Qualifier("userScorecardDaoImpl")
     private UserScorecardDao userScorecardDao;
 
+    @Autowired
+    @Qualifier("verificationTokenDaoImpl")
+    private VerificationTokenDao verificationTokenDao;
+
     @Override
     public boolean insert(User user) {
         boolean isInserted = userMapper.insert(user);
@@ -33,13 +39,34 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updatePassword(Integer id, String password) {
-        return userMapper.updatePassword(id, password);
+    public boolean updatePassword(String emailId, String password) {
+        return userMapper.updatePassword(emailId, password);
+    }
+
+    @Override
+    public boolean updateEnabled(User user) {
+        return userMapper.updateEnabled(user);
     }
 
     @Override
     public boolean delete(Integer id) {
         return userMapper.delete(id);
+    }
+
+    @Override
+    public void createVerificationToken(User user, String token) {
+        VerificationToken myToken = new VerificationToken(token, user.getEmailId());
+        verificationTokenDao.insert(myToken);
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return null;
+    }
+
+    @Override
+    public User getUserByVerificationToken(String verificationToken) {
+        return null;
     }
 
     @Override
