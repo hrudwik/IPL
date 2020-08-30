@@ -22,6 +22,9 @@ public interface UserMapper extends UserDao {
     @Insert("UPDATE \"user\" set enabled=#{enabled} WHERE emailId = #{emailId}")
     boolean updateEnabled(User user);
 
+    @Insert("UPDATE \"user\" set token=#{token} WHERE emailId = #{emailId}")
+    boolean updateToken(User user);
+
     @Delete("DELETE FROM \"user\" WHERE id = #{id}")
     boolean delete(Integer id);
 
@@ -30,6 +33,9 @@ public interface UserMapper extends UserDao {
 
     @Select("SELECT id, emailId, userName, phoneNumber, password, enabled, token FROM \"user\" WHERE emailId = #{emailId}")
     User getUserByEmailId(String emailId);
+
+    @Select("SELECT id, emailId, userName, phoneNumber, password, enabled, token FROM \"user\" WHERE token = #{token}")
+    User getUserByToken(String token);
 
     @Select("SELECT id, emailId, userName, phoneNumber, password, enabled, token FROM \"user\" WHERE userName = #{userName}")
     User getUserByUserName(String userName);

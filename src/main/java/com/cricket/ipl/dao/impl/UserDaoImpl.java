@@ -49,6 +49,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public boolean updateToken(User user) {
+        return userMapper.updateToken(user);
+    }
+
+    @Override
     public boolean delete(Integer id) {
         return userMapper.delete(id);
     }
@@ -76,6 +81,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmailId(String emailId) { return userMapper.getUserByEmailId(emailId); }
+
+    @Override
+    public User getUserByToken(String token) {
+        return userMapper.getUserByToken(token);
+    }
 
     @Override
     public User getUserByUserName(String userName) {

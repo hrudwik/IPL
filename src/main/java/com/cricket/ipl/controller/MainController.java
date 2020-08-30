@@ -22,6 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -94,7 +95,9 @@ public class MainController {
         user.setEnabled(false);
         userDao.insert(user);
 
-        confirmRegistration(user);
+        Runnable runnable = () -> confirmRegistration(user);
+        CompletableFuture.runAsync(runnable);
+        // new Thread(runnable).start();
         // String appUrl = request.getContextPath();
         // eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
 
@@ -108,7 +111,7 @@ public class MainController {
         String recipientAddress = user.getEmailId();
         String subject = "Registration Confirmation";
         String confirmationUrl
-                = "http://ipl-prediction-t20.herokuapp.com" + "/regitrationConfirm.html?token=" + token;
+                = "http://ipl-prediction-t20.herokuapp.com" + "/regitrationConfirm?token=" + token;
         // String message = messages.getMessage("message.regSucc", null, Locale.ENGLISH);
         String message = "Hi " + user.getUserName() + " please click on below url to confirm registration";
 
@@ -118,6 +121,8 @@ public class MainController {
         email.setText(message + "\r\n" + confirmationUrl);
         try {
             mailSender.send(email);
+            user.setToken(token);
+            userDao.updateToken(user);
         } catch(MailException e){
             e.printStackTrace();
         } catch (Exception e) {
@@ -126,30 +131,20 @@ public class MainController {
     }
 
     @GetMapping("/regitrationConfirm")
-    public String confirmRegistration
-            (WebRequest request, Model model, @RequestParam("token") String token) {
+    public String confirmRegistration(@RequestParam("token") String token) {
 
-        Locale locale = request.getLocale();
-
-        VerificationToken verificationToken = userDao.getVerificationToken(token);
-        if (verificationToken == null) {
-            String message = messages.getMessage("auth.message.invalidToken", null, locale);
-            model.addAttribute("message", message);
-            return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        if (token == null || token == "") {
+            throw new ConstraintViolationException("invalidToken \""+token+"\" ", Collections.emptySet());
         }
+        User user = userDao.getUserByToken(token);
 
-        String emailId = verificationToken.getEmailId();
-        User user = userDao.getUserByEmailId(emailId);
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            String messageValue = messages.getMessage("auth.message.expired", null, locale);
-            model.addAttribute("message", messageValue);
-            return "redirect:/badUser.html?lang=" + locale.getLanguage();
+        if(user == null) {
+            throw new ConstraintViolationException("invalidToken \""+token+"\" ", Collections.emptySet());
         }
 
         user.setEnabled(true);
         userDao.updateEnabled(user);
-        return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
+        return "redirect:/login";
     }
 
     @PostMapping("/login")
@@ -160,7 +155,7 @@ public class MainController {
         if(tempEmailId!=null && !"".equals(tempEmailId) && tempPassword!=null && !"".equals(tempPassword)) {
             userObj =  userDao.getUserByEmailIdAndPassword(tempEmailId, tempPassword);
         }
-        if(userObj == null) {
+        if(userObj == null || !userObj.isEnabled()) {
             throw new Exception("Bad credentials");
         }
         return userObj;

@@ -13,6 +13,8 @@ public interface UserDao {
 
     boolean updateEnabled(User user);
 
+    boolean updateToken(User user);
+
     boolean delete(Integer id);
 
     void createVerificationToken(User user, String token);
@@ -24,6 +26,8 @@ public interface UserDao {
     User getUserById(Integer id);
 
     User getUserByEmailId(String emailId);
+
+    User getUserByToken(String token);
 
     User getUserByUserName(String userName);
 
