@@ -26,55 +26,36 @@ public class UserPredictionDaoImpl implements UserPredictionDao {
     public boolean upsert(UserPrediction userPrediction) throws Exception {
         UserScorecard userScorecard = userScorecardDao.getUserScorecard(userPrediction.getEmailId());
         Integer leftMoney = userScorecard.getMoney();
-        UserPrediction userPredictionTemp = getUserPredictionByMatchIdAndEmailId(userPrediction.getEmailId(), userPrediction.getMatchId());
-        if(userPredictionTemp != null){
-            userPrediction.setBet(userPredictionTemp.getBet());
+        Integer betMoney = userPrediction.getBet();
+
+        if(betMoney>leftMoney) {
+            throw new Exception("Prediction update failed for "+userPrediction.getEmailId()+". Low balance details leftMoney: "
+                    + userPrediction+ " betMoney: "+betMoney);
         }
 
-        if(updateMoney(userScorecard, userPrediction, userPredictionTemp)) {
-            if(userPredictionTemp == null) {
-                insert(userPrediction);
-            } else {
-                if(userPredictionTemp.getBet()>0){
-                    userPrediction.setBet(userPredictionTemp.getBet());
-                }
-                updatePrediction(userPrediction);
+        UserPrediction userPredictionTemp = getUserPredictionByMatchIdAndEmailId(userPrediction.getEmailId(), userPrediction.getMatchId());
+        if(userPredictionTemp == null) {
+            if(userPrediction.getBet()>0){
+                updateMoney(userScorecard, userPrediction, userPredictionTemp);
             }
+            insert(userPrediction);
         } else {
-            if(leftMoney<userPrediction.getBet()){
-                throw new Exception("Prediction update failed for "+userPrediction.getEmailId()+" details :"+ userPrediction);
-            }
-            if(userPredictionTemp == null) {
-                insert(userPrediction);
+            Integer prevBetMoney = userPredictionTemp.getBet();
+            if(betMoney<=prevBetMoney) {
+                userPrediction.setBet(userPredictionTemp.getBet());
             } else {
-                updatePrediction(userPrediction);
+                updateMoney(userScorecard, userPrediction, userPredictionTemp);
             }
+            updatePrediction(userPrediction);
         }
 
         return  true;
     }
 
-    private boolean updateMoney(UserScorecard userScorecard, UserPrediction userPrediction, UserPrediction userPredictionTemp) {
+    private void updateMoney(UserScorecard userScorecard, UserPrediction userPrediction, UserPrediction userPredictionTemp) {
 
-        boolean isUpdated = false;
-        if(userPredictionTemp == null) {
-            if(userPrediction.getBet()>0){
-                if(userScorecard.getMoney()>=userPrediction.getBet()) {
-                    Integer resultantMoney = userScorecard.getMoney() - userPrediction.getBet();
-                    isUpdated = userScorecardDao.updateMoney(userPrediction.getEmailId(), resultantMoney);
-                }
-            }
-        } else {
-            if(userPrediction.getBet()>0){
-                if(userPredictionTemp.getBet() == null || userPredictionTemp.getBet() == 0) {
-                    if(userScorecard.getMoney() != null && userScorecard.getMoney()>=userPrediction.getBet()) {
-                        Integer resultantMoney = userScorecard.getMoney() - userPrediction.getBet();
-                        isUpdated = userScorecardDao.updateMoney(userPrediction.getEmailId(), resultantMoney);
-                    }
-                }
-            }
-        }
-        return isUpdated;
+        Integer resultantMoney = userScorecard.getMoney() - userPrediction.getBet();
+        userScorecardDao.updateMoney(userPrediction.getEmailId(), resultantMoney);
     }
 
     @Override

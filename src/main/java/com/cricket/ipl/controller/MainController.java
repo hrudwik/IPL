@@ -70,6 +70,7 @@ public class MainController {
     @PostMapping("/registeruser")
     // @CrossOrigin(origins = {NetworkConstants.URL1, NetworkConstants.URL2, NetworkConstants.URL3, NetworkConstants.URL4})
     public User registerUser(@RequestBody User user) throws Exception {
+        long startTime = System.currentTimeMillis();
         String tempEmailId = user.getEmailId();
         String tempUserName = user.getUserName();
         String tempPhoneNo = user.getPhoneNumber();
@@ -97,14 +98,15 @@ public class MainController {
 
         Runnable runnable = () -> confirmRegistration(user);
         CompletableFuture.runAsync(runnable);
-        // new Thread(runnable).start();
-        // String appUrl = request.getContextPath();
-        // eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
+
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("registerUser took {} milliseconds", (endTime - startTime));
 
         return user;
     }
 
     private void confirmRegistration(User user) {
+        long startTime = System.currentTimeMillis();
         String token = UUID.randomUUID().toString();
         userDao.createVerificationToken(user, token);
 
@@ -123,6 +125,9 @@ public class MainController {
             mailSender.send(email);
             user.setToken(token);
             userDao.updateToken(user);
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("confirmRegistrationPvt took {} milliseconds", (endTime - startTime));
         } catch(MailException e){
             e.printStackTrace();
         } catch (Exception e) {
@@ -133,6 +138,7 @@ public class MainController {
     @GetMapping("/regitrationConfirm")
     public String confirmRegistration(@RequestParam("token") String token) {
 
+        long startTime = System.currentTimeMillis();
         if (token == null || token == "") {
             throw new ConstraintViolationException("invalidToken \""+token+"\" ", Collections.emptySet());
         }
@@ -144,11 +150,16 @@ public class MainController {
 
         user.setEnabled(true);
         userDao.updateEnabled(user);
+
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("confirmRegistration took {} milliseconds", (endTime - startTime));
+
         return "redirect:/login";
     }
 
     @PostMapping("/login")
     public User loginUser(@RequestBody User user) throws Exception {
+        long startTime = System.currentTimeMillis();
         String tempEmailId = user.getEmailId();
         String tempPassword = user.getPassword();
         User userObj = null;
@@ -158,11 +169,16 @@ public class MainController {
         if(userObj == null || !userObj.isEnabled()) {
             throw new Exception("Bad credentials");
         }
+
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("loginUser took {} milliseconds", (endTime - startTime));
+
         return userObj;
     }
 
     @PostMapping("/nextThreeMatchDetails")
     public List<MatchDetails> nextThreeMatchDetails() throws Exception {
+        long startTime = System.currentTimeMillis();
         List<MatchDetails> matchDetailList = new ArrayList<>();
         List<MatchSchedule> matchScheduleList = matchScheduleDao.selectNextThreeMatchs();
 
@@ -180,11 +196,15 @@ public class MainController {
             matchDetailList.add(matchDetails);
         }
 
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("nextThreeMatchDetails took {} milliseconds", (endTime - startTime));
+
         return matchDetailList;
     }
 
     @PostMapping("/getAllMatchDetails")
     public List<MatchDetails> getAllMatchDetails() throws Exception {
+        long startTime = System.currentTimeMillis();
         List<MatchDetails> matchDetailList = new ArrayList<>();
         List<MatchSchedule> matchScheduleList = matchScheduleDao.getMatchSchedule();
         List<MatchSchedule> orderedMatchScheduleList = matchScheduleList.stream().filter(ms->ms.getWinner() != null)
@@ -201,6 +221,9 @@ public class MainController {
             matchDetailList.add(matchDetails);
         }
 
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("getAllMatchDetails took {} milliseconds", (endTime - startTime));
+
         return matchDetailList;
     }
 
@@ -208,8 +231,14 @@ public class MainController {
     public Boolean updateUserPrediction(@RequestBody UserPrediction userPrediction) throws Exception {
 
         try {
+            long startTime = System.currentTimeMillis();
             LOGGER.info("updating user prediction {}, {}", userPrediction.getEmailId(), userPrediction);
-            return userPredictionDao.upsert(userPrediction);
+            Boolean isSuccess = userPredictionDao.upsert(userPrediction);
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("updateUserPrediction took {} milliseconds", (endTime - startTime));
+
+            return isSuccess;
         } catch (Exception ex) {
             throw new Exception("Prediction update failed for "+userPrediction.getEmailId()+" details :"+ userPrediction);
         }
@@ -219,7 +248,13 @@ public class MainController {
     public UserPrediction getUserPrediction(@RequestBody UserPrediction userPrediction) throws Exception {
 
         try {
-            return userPredictionDao.getUserPredictionByMatchIdAndEmailId(userPrediction.getEmailId(), userPrediction.getMatchId());
+            long startTime = System.currentTimeMillis();
+            UserPrediction userPredictionReturn =  userPredictionDao.getUserPredictionByMatchIdAndEmailId(userPrediction.getEmailId(), userPrediction.getMatchId());
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("getUserPrediction took {} milliseconds", (endTime - startTime));
+
+            return userPredictionReturn;
         } catch (Exception ex) {
             throw new Exception("Prediction update failed for "+userPrediction.getEmailId()+" details :"+ userPrediction);
         }
@@ -230,7 +265,13 @@ public class MainController {
     public List<UserScorecard> getOverallLeaderboard() throws Exception {
 
         try {
-            return userScorecardDao.getOverallScorecard();
+            long startTime = System.currentTimeMillis();
+            List<UserScorecard> userScorecardList = userScorecardDao.getOverallScorecard();
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("getOverallLeaderboard took {} milliseconds", (endTime - startTime));
+
+            return userScorecardList;
         } catch (Exception ex) {
             throw new Exception("failed to fetch overall scorecard");
         }
@@ -240,7 +281,13 @@ public class MainController {
     public List<UserPrediction> getLeaderboardForMatch(@RequestBody MatchDetails matchDetails) throws Exception {
 
         try {
-            return userPredictionDao.getUsersPredictionsByMatchId(matchDetails.getMatchId());
+            long startTime = System.currentTimeMillis();
+            List<UserPrediction> userPredictionList = userPredictionDao.getUsersPredictionsByMatchId(matchDetails.getMatchId());
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("getLeaderboardForMatch took {} milliseconds", (endTime - startTime));
+
+            return userPredictionList;
         } catch (Exception ex) {
             throw new Exception("failed to fetch overall scorecard");
         }
@@ -250,7 +297,13 @@ public class MainController {
     public List<UserPrediction> getPaidLeaderboardForMatch(@RequestBody MatchDetails matchDetails) throws Exception {
 
         try {
-            return userPredictionDao.getPaidUsersPredictionsByMatchId(matchDetails.getMatchId());
+            long startTime = System.currentTimeMillis();
+            List<UserPrediction> userPredictionList = userPredictionDao.getPaidUsersPredictionsByMatchId(matchDetails.getMatchId());
+
+            long endTime = System.currentTimeMillis();
+            LOGGER.info("getLeaderboardForMatch took {} milliseconds", (endTime - startTime));
+
+            return userPredictionList;
         } catch (Exception ex) {
             throw new Exception("failed to fetch overall scorecard");
         }
